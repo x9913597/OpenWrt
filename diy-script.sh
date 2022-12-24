@@ -49,23 +49,14 @@ svn co https://github.com/xiaorouji/openwrt-passwall/trunk/trojan-plus package/t
 svn co https://github.com/xiaorouji/openwrt-passwall/trunk/v2ray-geodata package/v2ray-geodata
 
 # Themes
-git clone --depth 1 -b 18.06 https://github.com/kiddin9/luci-theme-edge package/luci-theme-edge
 git clone --depth 1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
-git clone --depth 1 https://github.com/thinktip/luci-theme-neobird package/luci-theme-neobird
-git clone --depth 1 https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom package/luci-theme-infinityfreedom
-svn co https://github.com/rosywrt/luci-theme-rosy/trunk/luci-theme-rosy package/luci-theme-rosy
 svn co https://github.com/haiibo/packages/trunk/luci-theme-atmaterial package/luci-theme-atmaterial
 svn co https://github.com/haiibo/packages/trunk/luci-theme-opentomcat package/luci-theme-opentomcat
 
 # iStore
 svn co https://github.com/linkease/istore-ui/trunk/app-store-ui package/app-store-ui
 svn co https://github.com/linkease/istore/trunk/luci package/istore
-
-# 在线用户
-svn co https://github.com/haiibo/packages/trunk/luci-app-onliner package/luci-app-onliner
-sed -i '/bin\/sh/a\uci set nlbwmon.@nlbwmon[0].refresh_interval=2s' package/lean/default-settings/files/zzz-default-settings
-sed -i '/nlbwmon/a\uci commit nlbwmon' package/lean/default-settings/files/zzz-default-settings
 
 # 调整 x86 型号只显示 CPU 型号
 sed -i 's/${g}.*/${a}${b}${c}${d}${e}${f}/g' package/lean/autocore/files/x86/autocore
@@ -88,6 +79,11 @@ find package/luci-theme-*/* -type f -name '*luci-theme-*' -print -exec sed -i '/
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-v2ray-server/luasrc/controller/*.lua
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-v2ray-server/luasrc/model/cbi/v2ray_server/*.lua
 sed -i 's/services/vpn/g' feeds/luci/applications/luci-app-v2ray-server/luasrc/view/v2ray_server/*.htm
+
+# 调整 ZeroTier 到 服务 菜单
+# sed -i '/"VPN"/d' feeds/luci/applications/luci-app-zerotier/luasrc/controller/zerotier.lua
+# sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/luasrc/controller/zerotier.lua
+# sed -i 's/vpn/services/g' feeds/luci/applications/luci-app-zerotier/luasrc/view/zerotier/zerotier_status.htm
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
